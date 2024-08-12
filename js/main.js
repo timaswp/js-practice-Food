@@ -148,12 +148,13 @@ document.addEventListener ("DOMContentLoaded", () => {
     //Classes for cards
 
     class MenuCard {
-        constructor (img, alt, title, text, price, parentSelector) {
+        constructor (img, alt, title, text, price, parentSelector, ...classes) {
             this.img = img;
             this.alt = alt;
             this.title = title;
             this.text = text;
             this.price = price;
+            this.classes = classes;
             this.parent = document.querySelector(parentSelector);
             this.transfer = 41;
             this.changeToUAH();
@@ -165,16 +166,22 @@ document.addEventListener ("DOMContentLoaded", () => {
 
         render() {
             const element = document.createElement('div');
+
+            if (this.classes.length === 0) {
+                this.classes = 'menu__item';
+                element.classList.add(this.classes);
+            } else {
+                this.classes.forEach(className => element.classList.add(className));
+            }
+
             element.innerHTML = `
-                <div class="menu__item">
-                    <img src=${this.img} alt=${this.alt}>
-                    <h3 class="menu__item-subtitle">${this.title}</h3>
-                    <div class="menu__item-descr">${this.text}</div>
-                    <div class="menu__item-divider"></div>
-                    <div class="menu__item-price">
-                        <div class="menu__item-cost">Цена:</div>
-                        <div class="menu__item-total"><span>${this.price}</span> грн/день</div>
-                    </div>
+                <img src=${this.img} alt=${this.alt}>
+                <h3 class="menu__item-subtitle">${this.title}</h3>
+                <div class="menu__item-descr">${this.text}</div>
+                <div class="menu__item-divider"></div>
+                <div class="menu__item-price">
+                    <div class="menu__item-cost">Цена:</div>
+                    <div class="menu__item-total"><span>${this.price}</span> грн/день</div>
                 </div>
             `;
             this.parent.append(element);
@@ -196,7 +203,8 @@ document.addEventListener ("DOMContentLoaded", () => {
         'Меню "Премиум"',
         "В меню “Премиум” не только привлекательный дизайн упаковки, но и качественное исполнение блюд. Красная рыба, морепродукты, фрукты — меню, позволяющее насладиться изысканным ужином, не выходя из дома!",
         13,
-        '.menu .container'
+        '.menu .container',
+        'menu__item'
     ).render();
 
     new MenuCard(
@@ -205,6 +213,7 @@ document.addEventListener ("DOMContentLoaded", () => {
         'Меню "Постное"',
         "Меню “Постное” - это тщательный подбор ингредиентов: полное отсутствие продуктов животного происхождения, молоко из миндаля, овса, кокоса или гречки, правильное количество белков за счет тофу и импортных вегетарианских стейков.",
         10,
-        '.menu .container'
+        '.menu .container',
+        'menu__item'
     ).render();
 });
