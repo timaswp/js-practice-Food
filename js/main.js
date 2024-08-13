@@ -105,6 +105,7 @@ document.addEventListener ("DOMContentLoaded", () => {
         modalWindow.classList.add('show', 'fade-in');
         document.body.style.overflow = 'hidden';
         clearInterval(modalTimeoutId);
+        window.removeEventListener('scroll', showModalByScroll);
     }
     
     modalOpen.forEach(btn => {
@@ -134,7 +135,7 @@ document.addEventListener ("DOMContentLoaded", () => {
         }
     });
 
-    // const modalTimeoutId = setTimeout(openModal, 6000);
+    const modalTimeoutId = setTimeout(openModal, 6000);
 
     function showModalByScroll() {
         if (window.scrollY + document.documentElement.clientHeight == document.documentElement.scrollHeight) {
@@ -216,4 +217,57 @@ document.addEventListener ("DOMContentLoaded", () => {
         '.menu .container',
         'menu__item'
     ).render();
+
+    //Forms
+
+    const forms = document.querySelectorAll('form');
+
+    const messages = {
+        loading: 'Загрузка...',
+        success: 'Спасибо! Мы скоро с вами свяжемся.',
+        failure: 'Что-то пошло не так...'
+    }
+
+    forms.forEach(item => {
+        submitForm(item);
+    });
+
+    function submitForm(form) {
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const statusMessage = document.createElement('div');
+            statusMessage.classList.add('status');
+            statusMessage.textContent = messages.loading;
+            form.append(statusMessage);
+
+            const request = new XMLHttpRequest();
+            request.open('POST', 'server.php');
+
+            // request.setRequestHeader('Content-type', 'multipart/form-data'); -- заголовок задавать не нужно, если делаем запрос с formdata
+            request.setRequestHeader('Content-type', 'application/json');
+            const formData = new FormData(form);
+
+            const obj = {};
+            formData.forEach(function(value, key) {
+                obj[key] = value;
+            });
+
+            const json = JSON.stringify(obj);
+
+            request.send(json);
+            request.addEventListener('load', () => {
+                if (request.status === 200) {
+                    console.log(request.response);
+                    statusMessage.textContent = messages.success;
+                    form.reset();
+                    setTimeout(() => {
+                        statusMessage.remove();
+                    }, 2000);
+                } else {
+                    statusMessage.textContent = messages.failure;
+                }
+            });
+        });
+    }
 });
