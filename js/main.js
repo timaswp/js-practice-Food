@@ -242,11 +242,6 @@ document.addEventListener ("DOMContentLoaded", () => {
             `;
             form.insertAdjacentHTML('afterend', statusMessage);
 
-            const request = new XMLHttpRequest();
-            request.open('POST', 'server.php');
-
-            // request.setRequestHeader('Content-type', 'multipart/form-data'); -- заголовок задавать не нужно, если делаем запрос с formdata
-            request.setRequestHeader('Content-type', 'application/json');
             const formData = new FormData(form);
 
             const obj = {};
@@ -254,19 +249,23 @@ document.addEventListener ("DOMContentLoaded", () => {
                 obj[key] = value;
             });
 
-            const json = JSON.stringify(obj);
-
-            request.send(json);
-            request.addEventListener('load', () => {
-                if (request.status === 200) {
-                    console.log(request.response);
-                    showThanksModal(messages.success);
-                    form.reset();
-                    statusMessage.remove();
-                } else {
-                    showThanksModal(messages.failure);
-                }
-            });
+            fetch('server.php', {
+                method: "POST",
+                headers: {'Content-type': 'application/json'},
+                body: JSON.stringify(obj)
+            })
+            .then(data => data.text())
+            .then(data => {
+                console.log(data);
+                showThanksModal(messages.success);
+                statusMessage.remove();
+            })
+            .catch(() => {
+                showThanksModal(messages.failure);
+            })
+            .finally(() => {
+                form.reset();
+            })
         });
     }
 
