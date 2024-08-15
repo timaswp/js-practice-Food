@@ -259,13 +259,13 @@ document.addEventListener ("DOMContentLoaded", () => {
             .then(data => {
                 console.log(data);
                 showThanksModal(messages.success);
-                statusMessage.remove();
             })
             .catch(() => {
                 showThanksModal(messages.failure);
             })
             .finally(() => {
                 form.reset();
+                statusMessage.remove();
             })
         });
     }
