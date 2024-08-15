@@ -223,8 +223,8 @@ document.addEventListener ("DOMContentLoaded", () => {
         loading: 'img/form/spinner.svg',
         success: 'Спасибо! Мы скоро с вами свяжемся.',
         failure: 'Что-то пошло не так...'
-    }
-
+    };
+    
     forms.forEach(item => {
         submitForm(item);
     });
@@ -249,7 +249,7 @@ document.addEventListener ("DOMContentLoaded", () => {
                 display: block;
                 margin: 0 auto;
             `;
-            form.insertAdjacentHTML('afterend', statusMessage);
+            form.insertAdjacentElement('afterend', statusMessage);
 
             const formData = new FormData(form);
 
