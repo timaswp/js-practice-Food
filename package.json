@@ -1,0 +1,22 @@
+{
+  "name": "038-food-dist",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/timaswp/js-practice-Food.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/timaswp/js-practice-Food/issues"
+  },
+  "homepage": "https://github.com/timaswp/js-practice-Food#readme",
+  "description": "",
+  "devDependencies": {
+    "json-server": "^1.0.0-beta.1"
+  }
+}
