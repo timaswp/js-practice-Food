@@ -291,4 +291,49 @@ document.addEventListener ("DOMContentLoaded", () => {
             setTimeout(() => prevModalDialog.classList.toggle('hide'), 1000);
         }, 4000);
     }
+
+    // slider
+
+    const prevArrow = document.querySelector('.offer__slider-prev'),
+          nextArrow = document.querySelector('.offer__slider-next'),
+          slides = document.querySelectorAll('.offer__slide'),
+          totalSlideCount = document.querySelector('#total'),
+          currentSlideCount = document.querySelector('#current');
+
+    let slideIndex = 1;
+
+    if (slides.length < 10) {
+        totalSlideCount.textContent = `0${slides.length}`;
+    } else {
+        totalSlideCount.textContent = slides.length;
+    }
+
+    function showSlide(i) {
+        if (i > slides.length) {
+            slideIndex = 1;
+        }
+
+        if (i < 1) {
+            slideIndex = slides.length;
+        }
+        slides.forEach(slide => slide.classList.add('hide'));
+        slides[slideIndex-1].classList.remove('hide');
+    }
+
+    function countSlide(n) {
+        showSlide(slideIndex += n);
+        if (slides.length < 10) {
+            currentSlideCount.textContent = `0${slideIndex}`;
+        } else {
+            currentSlideCount.textContent = slideIndex;
+        }
+    }
+
+    prevArrow.addEventListener('click', () => {
+        countSlide(-1);
+    });
+
+    nextArrow.addEventListener('click', () => {
+        countSlide(1);
+    });
 });
