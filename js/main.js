@@ -308,18 +308,22 @@ document.addEventListener ("DOMContentLoaded", () => {
         slideOffset = 0,
         navDots = [];
 
-    const countSlide = function() {
+    function countSlide() {
         if (slides.length < 10) {
             currentSlideCount.textContent = `0${slideIndex}`;
         } else {
             currentSlideCount.textContent = slideIndex;
         }
-    };
+    }
 
-    const toggleSlideDot = function(n) {
+    function toggleSlideDot(n) {
         navDots.forEach(dot => dot.classList.remove('dot_active'));
         navDots[n].classList.add('dot_active');
-    };
+    }
+
+    function digitalize(str) {
+        return +str.replace(/\D/g, '');
+    }
 
     if (slides.length < 10) {
         totalSlideCount.textContent = `0${slides.length}`;
@@ -351,10 +355,10 @@ document.addEventListener ("DOMContentLoaded", () => {
     });
 
     nextArrow.addEventListener('click', () => {
-        if (slideOffset == +slideWidth.slice(0, slideWidth.length - 2) * (slides.length - 1)) {
+        if (slideOffset == digitalize(slideWidth) * (slides.length - 1)) {
             slideOffset = 0;
         } else {
-            slideOffset += +slideWidth.slice(0, slideWidth.length - 2);
+            slideOffset += digitalize(slideWidth);
         }
 
         slidesField.style.transform = `translateX(-${slideOffset}px)`;
@@ -371,9 +375,9 @@ document.addEventListener ("DOMContentLoaded", () => {
 
     prevArrow.addEventListener('click', () => {
         if (slideOffset == 0) {
-            slideOffset = +slideWidth.slice(0, slideWidth.length - 2) * (slides.length - 1);
+            slideOffset = digitalize(slideWidth) * (slides.length - 1);
         } else {
-            slideOffset -= +slideWidth.slice(0, slideWidth.length - 2);
+            slideOffset -= digitalize(slideWidth);
         }
 
         slidesField.style.transform = `translateX(-${slideOffset}px)`;
@@ -395,7 +399,7 @@ document.addEventListener ("DOMContentLoaded", () => {
             countSlide();
             toggleSlideDot(i);
 
-            slideOffset = +slideWidth.slice(0, slideWidth.length - 2) * i;
+            slideOffset = digitalize(slideWidth) * i;
             slidesField.style.transform = `translateX(-${slideOffset}px)`;
 
         });
