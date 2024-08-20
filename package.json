@@ -17,6 +17,8 @@
   "homepage": "https://github.com/timaswp/js-practice-Food#readme",
   "description": "",
   "devDependencies": {
-    "json-server": "^1.0.0-beta.1"
+    "json-server": "^1.0.0-beta.1",
+    "webpack": "^5.93.0",
+    "webpack-cli": "^5.1.4"
   }
 }
