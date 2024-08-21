@@ -1,8 +1,11 @@
-function forms() {
+import {openModal, closeModal} from './modal';
+
+function forms(modalTimeoutId) {
 
     //Forms
 
-    const forms = document.querySelectorAll('form');
+    const forms = document.querySelectorAll('form'),
+          prevModalDialog = document.querySelector('.modal__dialog');
 
     const messages = {
         loading: 'img/form/spinner.svg',
@@ -57,7 +60,7 @@ function forms() {
 
     function showThanksModal(message) {
         prevModalDialog.classList.toggle('hide');
-        openModal();
+        openModal('.modal', modalTimeoutId);
 
         const thanksModal = document.createElement('div');
         thanksModal.classList.add('modal__dialog');
@@ -71,11 +74,11 @@ function forms() {
         modalWindow.append(thanksModal);
 
         setTimeout(() => {
-            closeModal();
+            closeModal('.modal');
             thanksModal.remove();
             setTimeout(() => prevModalDialog.classList.toggle('hide'), 1000);
         }, 4000);
     }
 }
 
-module.exports = forms;
+export default forms;

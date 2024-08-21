@@ -1,17 +1,20 @@
+import tabs from './modules/tabs';
+import timer from './modules/timer';
+import modal from './modules/modal';
+import cards from './modules/cards';
+import forms from './modules/forms';
+import slider from './modules/slider';
+import calc from './modules/calc';
+import {openModal} from './modules/modal';
+
 document.addEventListener ("DOMContentLoaded", () => {
-    const tabs = require('./modules/tabs.js'),
-          timer = require('./modules/timer.js'),
-          modal = require('./modules/modal.js'),
-          cards = require('./modules/cards.js'),
-          forms = require('./modules/forms.js'),
-          slider = require('./modules/slider.js'),
-          calc = require('./modules/calc.js');
+    const modalTimeoutId = setTimeout(() => openModal('.modal', modalTimeoutId), 50000);
 
     tabs();
     timer();
-    modal();
+    modal('[data-modal]', '.modal', modalTimeoutId);
     cards();
-    forms();
+    forms(modalTimeoutId);
     slider();
     calc();
 });

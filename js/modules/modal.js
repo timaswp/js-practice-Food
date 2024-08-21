@@ -1,49 +1,52 @@
-function modal() {
+function openModal(modalSelector, modalTimeoutId) {
+    const modalWindow = document.querySelector(modalSelector);
+    modalWindow.classList.remove('hide', 'fade-out');
+    modalWindow.classList.add('show', 'fade-in');
+    document.body.style.overflow = 'hidden';
+
+    if (modalTimeoutId) {
+        clearInterval(modalTimeoutId);
+    }
+
+    // window.removeEventListener('scroll', showModalByScroll);
+}
+
+function closeModal(modalSelector) {
+    const modalWindow = document.querySelector(modalSelector);
+    modalWindow.classList.remove('show', 'fade-in');
+    modalWindow.classList.add('fade-out');
+    setTimeout(function() {
+        modalWindow.classList.add('hide');
+    }, 500);
+    document.body.style.overflow = '';
+}
+
+function modal(triggerSelector, modalSelector, modalTimeoutId) {
 
     //Modal window
 
-    const modalOpen = document.querySelectorAll('[data-modal]'),
-          modalWindow = document.querySelector('.modal'),
-          prevModalDialog = document.querySelector('.modal__dialog');
-
-    function openModal() {
-        modalWindow.classList.remove('hide', 'fade-out');
-        modalWindow.classList.add('show', 'fade-in');
-        document.body.style.overflow = 'hidden';
-        clearInterval(modalTimeoutId);
-        window.removeEventListener('scroll', showModalByScroll);
-    }
+    const modalOpen = document.querySelectorAll(triggerSelector),
+          modalWindow = document.querySelector(modalSelector);
     
     modalOpen.forEach(btn => {
-        btn.addEventListener('click', openModal);
+        btn.addEventListener('click', () => openModal(modalSelector, modalTimeoutId));
     });
-
-    function closeModal() {
-            modalWindow.classList.remove('show', 'fade-in');
-            modalWindow.classList.add('fade-out');
-            setTimeout(function() {
-                modalWindow.classList.add('hide');
-            }, 500);
-            document.body.style.overflow = '';
-    }
 
     modalWindow.addEventListener('click', (e) => {
         if (e.target === modalWindow || e.target.getAttribute('data-close') == '') {
-            closeModal();
+            closeModal(modalSelector);
         }
     });
 
     document.addEventListener('keydown', (e) => {
         if (e.code === 'Escape' && modalWindow.classList.contains('show')) {
-            closeModal();
+            closeModal(modalSelector);
         }
     });
 
-    const modalTimeoutId = setTimeout(openModal, 50000);
-
     function showModalByScroll() {
         if (window.scrollY + document.documentElement.clientHeight == document.documentElement.scrollHeight) {
-            openModal();
+            openModal(modalSelector, modalTimeoutId);
             window.removeEventListener('scroll', showModalByScroll);
         }
     }
@@ -51,4 +54,5 @@ function modal() {
     window.addEventListener('scroll', showModalByScroll);
 }
 
-module.exports = modal;
+export default modal;
+export {openModal, closeModal};
