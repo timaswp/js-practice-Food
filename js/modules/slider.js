@@ -1,15 +1,15 @@
-function slider() {
+function slider({indicatorsContainer, slide, nextArrow, prevArrow, totalCounter, currentCounter, wrapper, field}) {
 
     // slider
 
-    const prevArrow = document.querySelector('.offer__slider-prev'),
-          nextArrow = document.querySelector('.offer__slider-next'),
-          totalSlideCount = document.querySelector('#total'),
-          currentSlideCount = document.querySelector('#current'),
-          sliderIndicator = document.querySelector('.carousel-indicators'),
-          slidesWrapper = document.querySelector('.offer__slider-wrapper'),
-          slides = slidesWrapper.querySelectorAll('.offer__slide'),
-          slidesField = slidesWrapper.querySelector('.offer__slider-inner'),
+    const prev = document.querySelector(prevArrow),
+          next = document.querySelector(nextArrow),
+          totalSlideCount = document.querySelector(totalCounter),
+          currentSlideCount = document.querySelector(currentCounter),
+          sliderIndicator = document.querySelector(indicatorsContainer),
+          slidesWrapper = document.querySelector(wrapper),
+          slides = slidesWrapper.querySelectorAll(slide),
+          slidesField = slidesWrapper.querySelector(field),
           slideWidth = window.getComputedStyle(slidesWrapper).width;
 
     let slideIndex = 1,
@@ -62,7 +62,7 @@ function slider() {
         slide.style.width = slideWidth;
     });
 
-    nextArrow.addEventListener('click', () => {
+    next.addEventListener('click', () => {
         if (slideOffset == digitalize(slideWidth) * (slides.length - 1)) {
             slideOffset = 0;
         } else {
@@ -81,7 +81,7 @@ function slider() {
         toggleSlideDot(slideIndex-1);
     });
 
-    prevArrow.addEventListener('click', () => {
+    prev.addEventListener('click', () => {
         if (slideOffset == 0) {
             slideOffset = digitalize(slideWidth) * (slides.length - 1);
         } else {

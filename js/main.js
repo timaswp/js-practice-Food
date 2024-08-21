@@ -10,11 +10,20 @@ import {openModal} from './modules/modal';
 document.addEventListener ("DOMContentLoaded", () => {
     const modalTimeoutId = setTimeout(() => openModal('.modal', modalTimeoutId), 50000);
 
-    tabs();
-    timer();
+    tabs('.tabheader__item', '.tabheader__items', '.tabcontent', 'tabheader__item_active');
+    timer('.timer', '2024-10-01');
     modal('[data-modal]', '.modal', modalTimeoutId);
     cards();
-    forms(modalTimeoutId);
-    slider();
+    forms('form', modalTimeoutId);
+    slider({
+        indicatorsContainer: '.carousel-indicators',
+        slide: '.offer__slide',
+        prevArrow: '.offer__slider-prev',
+        nextArrow: '.offer__slider-next',
+        totalCounter: '#total',
+        currentCounter: '#current',
+        wrapper: '.offer__slider-wrapper',
+        field: '.offer__slider-inner'
+    });
     calc();
 });

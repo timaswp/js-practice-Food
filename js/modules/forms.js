@@ -1,10 +1,11 @@
 import {openModal, closeModal} from './modal';
+import {postData} from '../services/services';
 
-function forms(modalTimeoutId) {
+function forms(formSelector, modalTimeoutId) {
 
     //Forms
 
-    const forms = document.querySelectorAll('form'),
+    const forms = document.querySelectorAll(formSelector),
           prevModalDialog = document.querySelector('.modal__dialog');
 
     const messages = {
@@ -16,16 +17,6 @@ function forms(modalTimeoutId) {
     forms.forEach(item => {
         submitForm(item);
     });
-
-    const postData = async (url, data) => {
-        const res = await fetch(url, {
-            method: "POST",
-            headers: {'Content-type': 'application/json'},
-            body: data
-        });
-
-        return await res.json();
-    };
 
     function submitForm(form) {
         form.addEventListener('submit', (e) => {
