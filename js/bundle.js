@@ -310,7 +310,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__),
 /* harmony export */   openModal: () => (/* binding */ openModal)
 /* harmony export */ });
-function openModal(modalSelector, modalTimeoutId) {
+function openModal(modalSelector, modalTimeoutId, showModalByScroll) {
     const modalWindow = document.querySelector(modalSelector);
     modalWindow.classList.remove('hide', 'fade-out');
     modalWindow.classList.add('show', 'fade-in');
@@ -319,8 +319,9 @@ function openModal(modalSelector, modalTimeoutId) {
     if (modalTimeoutId) {
         clearInterval(modalTimeoutId);
     }
-
-    // window.removeEventListener('scroll', showModalByScroll);
+    if (showModalByScroll) {
+        window.removeEventListener('scroll', showModalByScroll);
+    }
 }
 
 function closeModal(modalSelector) {
@@ -341,7 +342,7 @@ function modal(triggerSelector, modalSelector, modalTimeoutId) {
           modalWindow = document.querySelector(modalSelector);
     
     modalOpen.forEach(btn => {
-        btn.addEventListener('click', () => openModal(modalSelector, modalTimeoutId));
+        btn.addEventListener('click', () => openModal(modalSelector, modalTimeoutId, showModalByScroll));
     });
 
     modalWindow.addEventListener('click', (e) => {
@@ -357,9 +358,8 @@ function modal(triggerSelector, modalSelector, modalTimeoutId) {
     });
 
     function showModalByScroll() {
-        if (window.scrollY + document.documentElement.clientHeight == document.documentElement.scrollHeight) {
-            openModal(modalSelector, modalTimeoutId);
-            window.removeEventListener('scroll', showModalByScroll);
+        if (window.scrollY + document.documentElement.clientHeight >= document.documentElement.scrollHeight) {
+            openModal(modalSelector, modalTimeoutId, showModalByScroll);
         }
     }
 
