@@ -1,5 +1,6 @@
 require('es6-promise').polyfill();
 import 'nodelist-foreach-polyfill';
+import 'hammerjs';
 
 import tabs from './modules/tabs';
 import timer from './modules/timer';

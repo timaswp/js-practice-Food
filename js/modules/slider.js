@@ -15,6 +15,16 @@ function slider({indicatorsContainer, slide, nextArrow, prevArrow, totalCounter,
     let slideIndex = 1,
         slideOffset = 0,
         navDots = [];
+    
+    const hammer = new Hammer(slidesWrapper);
+
+    hammer.on('swipeleft', () => {
+        nextSlide();
+    });
+
+    hammer.on('swiperight', () => {
+        prevSlide();
+    });
 
     function countSlide() {
         if (slides.length < 10) {
@@ -62,7 +72,7 @@ function slider({indicatorsContainer, slide, nextArrow, prevArrow, totalCounter,
         slide.style.width = slideWidth;
     });
 
-    next.addEventListener('click', () => {
+    function nextSlide() {
         if (slideOffset == digitalize(slideWidth) * (slides.length - 1)) {
             slideOffset = 0;
         } else {
@@ -79,9 +89,9 @@ function slider({indicatorsContainer, slide, nextArrow, prevArrow, totalCounter,
 
         countSlide();
         toggleSlideDot(slideIndex-1);
-    });
+    }
 
-    prev.addEventListener('click', () => {
+    function prevSlide() {
         if (slideOffset == 0) {
             slideOffset = digitalize(slideWidth) * (slides.length - 1);
         } else {
@@ -98,7 +108,11 @@ function slider({indicatorsContainer, slide, nextArrow, prevArrow, totalCounter,
         
         countSlide();
         toggleSlideDot(slideIndex-1);
-    });
+    }
+
+    next.addEventListener('click', nextSlide);
+
+    prev.addEventListener('click', prevSlide);
 
     navDots.forEach((dot, i) => {
         dot.addEventListener('click', function() {
